@@ -1,0 +1,117 @@
+<html>
+<head></head>
+<body>
+<script>
+pi = Math.PI;
+animating = false;
+function pow(a,b){return Math.pow(a,b);}
+function get(elt){return document.getElementById(elt);}
+function root(a,b){
+return Math.pow(a,1/b);
+}
+randomRange = 100000000;
+deg = Math.PI/180;
+function sin(a){return Math.sin(a*deg);}
+function cos(a){return Math.cos(a*deg);}
+function tan(a){return Math.tan(a*deg);}
+function asin(a){return Math.asin(a*deg);}
+function acos(a){return Math.acos(a*deg);}
+function atan(a){return Math.atan(a*deg);}
+function csc(a){return 1/sin(a);}
+function sec(a){return 1/cos(a);}
+function cot(a){return 1/tan(a);}
+function acsc(a){return asin(1/a);}
+function asec(a){return acos(1/a);}
+function acot(a){return atan(1/a);}
+function addSolution(solValue){
+if(!solutionExists(solValue))solutions.push(solValue);
+}
+function solutionExists(n){
+for(i = 0; i < solutions.length;i++)if(solutions[i] == n)return true;
+}
+
+function clearSolutions(){
+solutions.length = 0;
+updateSolutions();
+}
+function updateSolutions(){
+if(solutions.length != lastSolutions){
+document.getElementById('solutions').innerHTML = '';
+for(var i = 0;i < solutions.length;i++)document.getElementById('solutions').innerHTML += 'x = ' + solutions[i]+'<br>';
+}
+lastSolutions = solutions.length;
+}
+window.onload = function(){
+document.getElementById('stopper').onclick = stop;
+lastSolutions = solutions.length || 0;
+document.getElementById('solClr').onclick = clearSolutions;
+solutions = [];
+		document.getElementById('but').onclick = function(){
+x = Math.round(Math.random() * randomRange);
+last = 10000000000000000000000;
+interv = randomRange;
+if(document.getElementById('sensitive').checked)interv = 5;
+lhs = get('lhs').value;
+rhs = get('rhs').value;
+if(!animating){animating = true;
+anim = setInterval(function(){updateSolutions();
+if(check())addSolution(x);
+	x += interv;
+},5);}
+}}
+function stop(){
+if(animating)anim = clearInterval(anim);
+animating = false;
+}
+function unworthyDiff(d){
+origX = x;
+		for(sol = 0;sol < solutions.length;sol++){
+		x = solutions[sol];
+		if(eval(lhs) - eval(rhs) == d){x = origX;return true}
+		}
+	x = origX;
+}
+function plop(){
+x = Math.round(Math.random() * randomRange);
+if(document.getElementById('sensitive').checked)x = Math.round(Math.random()* 1000 );
+}
+function check(){
+	document.getElementById('val').innerHTML = x;
+	diff = eval(lhs) - eval(rhs);
+	document.getElementById('close').innerHTML = diff;
+	if(last > 0 && diff < 0){interv *= -1;interv = interv/10;}
+	if(last < 0 && diff > 0){interv *= -1;interv = interv/10;}
+	if(Math.abs(last) < Math.abs(diff) )interv *= -1;
+	last = diff;
+	if(unworthyDiff(diff)){interv = randomRange;plop();return}
+	if(diff == 0)return true;
+}
+
+</script>
+<center>
+<textarea id='lhs'></textarea> = <textarea id='rhs'></textarea><br>
+<button id='but'>Solve</button><button id='solClr'>Clear Solutions</button><button id='stopper'>Stop</button><input id='sensitive' type='checkbox'>Sensitive Search<br>
+Trying x = <span id='val'></span><br>
+Difference between RHS and LHS = <span id='close'></span><br><br>
+<h1>Solutions</h1><div id='solutions' style='background:rgba(400,600,400,0.5)'></div>
+<div style='background:rgba(100,600,300,0.5)'>
+<h1 style='color:white;font-family:courier;'>Ways to express stuff</h1>
+n<sup>th</sup> root of x ==> root(x,n)<br>
+n<sup>th</sup> power of x ==> pow(x,n)<br>
+PI ==> pi<br><b><u>Trig Functions</u></b><br>
+sin x ==> sin(x)<br>
+cos x ==> cos(x)<br>
+tan x ==> tan(x)<br>
+sin<sup>-1</sup> x ==> asin(x)<br>
+cos<sup>-1</sup> x ==> acos(x)<br>
+tan<sup>-1</sup> x ==> atan(x)<br>
+cosec x ==> cosec(x)<br>
+sec x ==> sec(x)<br>
+cot x ==> cot(x)<br>
+cosec<sup>-1</sup> x ==> acosec(x)<br>
+sec<sup>-1</sup> x ==> asec(x)<br>
+cot<sup>-1</sup> x ==> acot(x)<br>
+</div>
+</center>
+</body>
+</html>
