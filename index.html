@@ -47,7 +47,7 @@ lastSolutions = solutions.length || 0;
 document.getElementById('solClr').onclick = clearSolutions;
 solutions = [];
 		document.getElementById('but').onclick = function(){
-x = Math.round(Math.random() * randomRange);
+x = Math.round(Math.random() * randomRange)-Math.round(Math.random() * randomRange);
 last = 10000000000000000000000;
 interv = randomRange;
 if(document.getElementById('sensitive').checked)interv = 5;
@@ -72,7 +72,7 @@ origX = x;
 	x = origX;
 }
 function plop(){
-x = Math.round(Math.random() * randomRange);
+x = Math.round(Math.random() * randomRange)-Math.round(Math.random() * randomRange);
 if(document.getElementById('sensitive').checked)x = Math.round(Math.random()* 1000 );
 }
 function check(){
