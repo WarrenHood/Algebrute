@@ -84,7 +84,7 @@ function check(){
 	if(Math.abs(last) < Math.abs(diff) )interv *= -1;
 	last = diff;
 	if(unworthyDiff(diff)){interv = randomRange;plop();return}
-	if(diff == 0)return true;
+	if(Math.abs(diff) <= 0.000000001)return true;
 }
 
 </script>
