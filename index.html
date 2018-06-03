@@ -79,7 +79,7 @@ function check(){
 	document.getElementById('val').innerHTML = x;
 	diff = eval(lhs) - eval(rhs);
 	document.getElementById('close').innerHTML = diff;
-	if(diff >= last){interv *= -1;interv = interv/10;}
+	if(Math.abs(diff) >= Math.abs(last)){interv *= -1;interv = interv/10;}
 
 	last = diff;
 	if(unworthyDiff(diff)){interv = randomRange;plop();return}
